@@ -1,4 +1,3 @@
-// App.js
 import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -21,11 +20,7 @@ function MainTabs() {
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName;
 
-                    if (route.name === 'Login') {
-                        iconName = focused ? 'log-in' : 'log-in-outline';
-                    } else if (route.name === 'Register') {
-                        iconName = focused ? 'person-add' : 'person-add-outline';
-                    } else if (route.name === 'HomePage') {
+                    if (route.name === 'HomePage') {
                         iconName = focused ? 'home' : 'home-outline';
                     } else if (route.name === 'User Management') {
                         iconName = focused ? 'person' : 'person-outline';
@@ -39,8 +34,6 @@ function MainTabs() {
                 tabBarInactiveTintColor: 'gray',
             })}
         >
-            <Tab.Screen name="Login" component={Login} />
-            <Tab.Screen name="Register" component={Register} />
             <Tab.Screen name="HomePage" component={HomePage} />
             <Tab.Screen name="User Management" component={UserManagementScreen} />
             <Tab.Screen name="Add Vehicle" component={AddVehicleScreen} />
@@ -54,9 +47,7 @@ export default function App() {
             <Stack.Navigator initialRouteName="Login">
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Register" component={Register} />
-                <Stack.Screen name="HomePage" component={MainTabs} options={{ headerShown: false }} />
-                <Stack.Screen name="User Management" component={MainTabs} options={{ headerShown: false }} />
-                <Stack.Screen name="Add Vehicle" component={MainTabs} options={{ headerShown: false }} />
+                <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     );

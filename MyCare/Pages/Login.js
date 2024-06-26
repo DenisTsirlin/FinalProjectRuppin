@@ -12,7 +12,7 @@ export default function Login({ navigation }) {
         try {
             const customer = await login(email, password);
             if (customer) {
-                navigation.navigate('HomePage');
+                navigation.navigate('MainTabs');
             } else {
                 Alert.alert('Login Failed', 'Invalid email or password');
             }
@@ -26,7 +26,7 @@ export default function Login({ navigation }) {
         <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
             <View style={{ paddingHorizontal: 25 }}>
                 <View style={{ alignItems: 'center' }}>
-                    <Image source={require('../assets/Images/login.png')} style={{ width: 200, height: 200, transform: [{ rotate: '-5deg' }] }} />
+                    <Image source={require('../assets/Images/logo.png')} style={{ width: 200, height: 200, transform: [{ rotate: '-5deg' }] }} />
                 </View>
                 <Text style={styles.titleLogin}>Login</Text>
 

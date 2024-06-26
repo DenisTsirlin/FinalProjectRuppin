@@ -9,7 +9,7 @@ export default function Register({ navigation }) {
         <ScrollView>
       <View style={{ paddingHorizontal: 25 }}>
         <View style={{ alignItems: 'center' }}>
-          <Image source={require('../assets/Images/login.png')} style={{ width: 200, height: 200, transform: [{ rotate: '-5deg' }] }} />
+          <Image source={require('../assets/Images/logo.png')} style={{ width: 200, height: 200, transform: [{ rotate: '-5deg' }] }} />
         </View>
         <Text style={styles.titleLogin}>Register</Text>
 
