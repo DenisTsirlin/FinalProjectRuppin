@@ -3,15 +3,23 @@ import { View, Text, TextInput, Button, StyleSheet, SafeAreaView, TouchableOpaci
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import login from '../Controllers/LoginController'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
+        if (!email || !password) {
+            Alert.alert('Input Error', 'Please fill in both email and password');
+            return;
+        }
+    
         try {
             const customer = await login(email, password);
             if (customer) {
+                console.log('Customer data:', customer); // הוסף כאן console.log
+                await AsyncStorage.setItem('user', JSON.stringify(customer));
                 navigation.navigate('MainTabs');
             } else {
                 Alert.alert('Login Failed', 'Invalid email or password');
@@ -21,12 +29,13 @@ export default function Login({ navigation }) {
             Alert.alert('Error', `Something went wrong. Please try again later. Error: ${error.message}`);
         }
     };
+    
 
     return (
         <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
             <View style={{ paddingHorizontal: 25 }}>
                 <View style={{ alignItems: 'center' }}>
-                    <Image source={require('../assets/Images/logo.png')} style={{ width: 200, height: 200, transform: [{ rotate: '-5deg' }] }} />
+                    <Image source={require('../assets/Images/logo.png')} style={{ width: 300, height: 300, transform: [{ rotate: '0deg' }] }} />
                 </View>
                 <Text style={styles.titleLogin}>Login</Text>
 
@@ -37,7 +46,7 @@ export default function Login({ navigation }) {
                         style={{ flex: 1, paddingVertical: 0 }}
                         keyboardType='email-address'
                         value={email}
-                        onChangeText={(txt) => setEmail(txt)}
+                        onChangeText={setEmail}
                     />
                 </View>
 
@@ -48,7 +57,7 @@ export default function Login({ navigation }) {
                         style={{ flex: 1, paddingVertical: 0 }}
                         secureTextEntry={true}
                         value={password}
-                        onChangeText={(txt) => setPassword(txt)}
+                        onChangeText={setPassword}
                     />
                     <TouchableOpacity>
                         <Text style={{ color: '#AD40AF', fontSize: 14 }}>Forgot?</Text>

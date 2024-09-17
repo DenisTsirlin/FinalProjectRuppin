@@ -21,9 +21,11 @@ CREATE TABLE Customers (
     Last_Name NVARCHAR(30),
     Birth_Day DATE,
     Driving_License DATE,
-    isvisible INT DEFAULT 1
 )
 GO
+
+select * from  Customers
+
 
 CREATE TABLE Type_Car (
     Code_Type_Car INT NOT NULL PRIMARY KEY,
@@ -31,6 +33,7 @@ CREATE TABLE Type_Car (
     isvisible INT DEFAULT 1
 )
 GO
+
 
 CREATE TABLE Vehicle (
     Car_Number NVARCHAR(8) NOT NULL PRIMARY KEY,
@@ -42,12 +45,13 @@ CREATE TABLE Vehicle (
     Number_Of_Kilometers INT,
     Insurance_Expiration DATE,
     Number_Of_Treatments INT DEFAULT 0,
-    isvisible INT DEFAULT 1,
     FOREIGN KEY (Customer_Id) REFERENCES Customers (Id),
     FOREIGN KEY (Code_Type_Car) REFERENCES Type_Car (Code_Type_Car)
 )
 GO
-
+ALTER TABLE Vehicle
+DROP COLUMN isvisible;
+GO
 CREATE TABLE Protocols (
     Protocol_Number INT NOT NULL PRIMARY KEY,
     Protocol_Name NVARCHAR(12),
@@ -120,7 +124,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE InsertCustomer
+Alter PROCEDURE InsertCustomer
     @Password VARCHAR(250),
     @Email NVARCHAR(40),
     @First_Name NVARCHAR(30),
@@ -129,10 +133,12 @@ CREATE PROCEDURE InsertCustomer
     @Driving_License DATE
 AS
 BEGIN
-    INSERT INTO Customers ([Password], Email, First_Name, Last_Name, Birth_Day, Driving_License, isvisible)
-    VALUES (@Password, @Email, @First_Name, @Last_Name, @Birth_Day, @Driving_License, 1);
+    INSERT INTO Customers ([Password], Email, First_Name, Last_Name, Birth_Day, Driving_License)
+    VALUES (@Password, @Email, @First_Name, @Last_Name, @Birth_Day, @Driving_License);
 END;
 GO
+
+
 
 CREATE PROCEDURE UpdateCustomer
     @Customer_Id INT,
