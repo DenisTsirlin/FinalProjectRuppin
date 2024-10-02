@@ -20,12 +20,14 @@ CREATE TABLE Customers (
     First_Name NVARCHAR(30),
     Last_Name NVARCHAR(30),
     Birth_Day DATE,
-    Driving_License DATE,
+    Driving_License Int,
 )
 GO
 
-select * from  Customers
-
+Delete from Customers
+Delete from Vehicle
+select * from Vehicle
+select * from Customers
 
 CREATE TABLE Type_Car (
     Code_Type_Car INT NOT NULL PRIMARY KEY,
@@ -38,20 +40,17 @@ GO
 CREATE TABLE Vehicle (
     Car_Number NVARCHAR(8) NOT NULL PRIMARY KEY,
     Customer_Id INT,
-    Code_Type_Car INT,
     Manufacturer NVARCHAR(15),
     Year_of_Manufacture INT,
     Color NVARCHAR(10),
     Number_Of_Kilometers INT,
-    Insurance_Expiration DATE,
+    Insurance_Expiration NVARCHAR(15),
     Number_Of_Treatments INT DEFAULT 0,
     FOREIGN KEY (Customer_Id) REFERENCES Customers (Id),
-    FOREIGN KEY (Code_Type_Car) REFERENCES Type_Car (Code_Type_Car)
 )
 GO
-ALTER TABLE Vehicle
-DROP COLUMN isvisible;
-GO
+
+
 CREATE TABLE Protocols (
     Protocol_Number INT NOT NULL PRIMARY KEY,
     Protocol_Name NVARCHAR(12),
@@ -130,7 +129,7 @@ Alter PROCEDURE InsertCustomer
     @First_Name NVARCHAR(30),
     @Last_Name NVARCHAR(30),
     @Birth_Day DATE,
-    @Driving_License DATE
+    @Driving_License int
 AS
 BEGIN
     INSERT INTO Customers ([Password], Email, First_Name, Last_Name, Birth_Day, Driving_License)
@@ -147,7 +146,7 @@ CREATE PROCEDURE UpdateCustomer
     @First_Name NVARCHAR(30) = NULL,
     @Last_Name NVARCHAR(30) = NULL,
     @Birth_Day DATE = NULL,
-    @Driving_License DATE = NULL
+    @Driving_License INT = NULL
 AS
 BEGIN
     UPDATE Customers
@@ -160,7 +159,6 @@ BEGIN
     WHERE Id = @Customer_Id;
 END;
 GO
-
 -- Create Stored Procedures for Type_Car
 CREATE PROCEDURE DeleteTypeCar
     @Code_Type_Car INT
@@ -199,22 +197,27 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE InsertVehicle
+ALTER PROCEDURE InsertVehicle
     @Car_Number NVARCHAR(8),
     @Customer_Id INT,
-    @Code_Type_Car INT,
     @Manufacturer NVARCHAR(15),
     @Year_of_Manufacture INT,
     @Color NVARCHAR(10),
     @Number_Of_Kilometers INT,
-    @Insurance_Expiration DATE,
+    @Insurance_Expiration NVARCHAR(12),
     @Number_Of_Treatments INT = 0
 AS
 BEGIN
-    INSERT INTO Vehicle (Car_Number, Customer_Id, Code_Type_Car, Manufacturer, Year_of_Manufacture, Color, Number_Of_Kilometers, Insurance_Expiration, Number_Of_Treatments, isvisible)
-    VALUES (@Car_Number, @Customer_Id, @Code_Type_Car, @Manufacturer, @Year_of_Manufacture, @Color, @Number_Of_Kilometers, @Insurance_Expiration, @Number_Of_Treatments, 1);
+    INSERT INTO Vehicle (Car_Number, Customer_Id,Manufacturer, Year_of_Manufacture, Color, Number_Of_Kilometers, Insurance_Expiration, Number_Of_Treatments)
+    VALUES (@Car_Number, @Customer_Id, @Manufacturer, @Year_of_Manufacture, @Color, @Number_Of_Kilometers, @Insurance_Expiration, @Number_Of_Treatments);
 END;
 GO
+
+ALTER TABLE Vehicle
+DROP COLUMN Code_Type_Car;
+
+EXEC sp_help 'Vehicle';
+
 
 CREATE PROCEDURE UpdateVehicle
     @Car_Number NVARCHAR(8),
