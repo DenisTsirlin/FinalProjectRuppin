@@ -1,0 +1,11 @@
+Denis-Password and user from Atlas MongoDB
+
+Username: denistsirlin
+Password: 2PPHLSFdpujc52xh
+
+
+Install your driver: npm install mongodb
+
+
+My connection string: mongodb+srv://denistsirlin:2PPHLSFdpujc52xh@mycare.i9qq6yd.mongodb.net/?retryWrites=true&w=majority&appName=MyCare
+
